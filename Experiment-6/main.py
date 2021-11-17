@@ -30,26 +30,32 @@ def get_filename():
         return filename
 
 
-def main():
+def save_lines(filename, lines):
+    with open(filename, "w") as f:
+        f.writelines(lines)
+    print("Saved {} items to {}".format(len(lines), filename))
 
-    filename = get_filename()
 
-    append_newline = lambda str: str if str.endswith("\n") else str + "\n"
+append_newline = lambda str: str if str.endswith("\n") else str + "\n"
 
+
+def get_lines(filename):
     if os.path.exists(filename):
         with open(filename, "r") as f:
             lines = f.readlines()
             lines[-1] = append_newline(lines[-1])
     else:
         lines = []
+    return lines
+
+
+def main():
+
+    filename = get_filename()
+
+    lines = get_lines(filename)
 
     while True:
-
-        # save lines to a file with line line
-        def save_lines(lines):
-            with open(filename, "w") as f:
-                f.writelines(lines)
-            print("Saved {} items to {}".format(len(lines), filename))
 
         if len(lines) == 0:
             print("no items are in the list")
@@ -57,8 +63,7 @@ def main():
             x = input("[A]dd  [Q]uit  [a]: ")
             if x.upper() not in ["A", "Q"]:
                 print("ERROR: invalid choice--enter one of 'AaQq'")
-                print("Press Enter to continue...")
-                input()
+                input("Press Enter to continue...")
                 continue
         else:
             print()
@@ -68,8 +73,7 @@ def main():
             x = input("[A]dd  [D]elete  [S]ave  [Q]uit  [a]: ")
             if x.upper() not in ["A", "D", "S", "Q"]:
                 print("ERROR: invalid choice--enter one of 'AaDdSsQq'")
-                print("Press Enter to continue...")
-                input()
+                input("Press Enter to continue...")
                 continue
 
         if x.upper() == "A" or x == "":
@@ -80,12 +84,12 @@ def main():
                 continue
             lines.pop(int(number) - 1)
         elif x.upper() == "S":
-            save_lines(lines)
+            save_lines(filename, lines)
             pass
         elif x.upper() == "Q":
             confirm = input("Save unsaved changes (y/n) [y]: ")
             if confirm.lower() == "y" or x == "":
-                save_lines(lines)
+                save_lines(filename, lines)
             break
 
 
