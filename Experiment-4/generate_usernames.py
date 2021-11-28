@@ -51,25 +51,30 @@ def print_users(users):
     namewidth = 17
     usernamewidth = 9
 
-    print(
-        "{0:<{nw}} {1:^6} {2:{uw}}".format(
-            "Name", "ID", "Username", nw=namewidth, uw=usernamewidth
-        ),
-        end=" ",
-    )
-    print(
-        "{0:<{nw}} {1:^6} {2:{uw}}".format(
-            "Name", "ID", "Username", nw=namewidth, uw=usernamewidth
+    def print_title():
+        print(
+            "{0:<{nw}} {1:^6} {2:{uw}}".format(
+                "Name", "ID", "Username", nw=namewidth, uw=usernamewidth
+            ),
+            end=" ",
         )
-    )
-    print(
-        "{0:-<{nw}} {0:-<6} {0:-<{uw}}".format("", nw=namewidth, uw=usernamewidth),
-        end=" ",
-    )
-    print("{0:-<{nw}} {0:-<6} {0:-<{uw}}".format("", nw=namewidth, uw=usernamewidth))
+        print(
+            "{0:<{nw}} {1:^6} {2:{uw}}".format(
+                "Name", "ID", "Username", nw=namewidth, uw=usernamewidth
+            )
+        )
+        print(
+            "{0:-<{nw}} {0:-<6} {0:-<{uw}}".format("", nw=namewidth, uw=usernamewidth),
+            end=" ",
+        )
+        print(
+            "{0:-<{nw}} {0:-<6} {0:-<{uw}}".format("", nw=namewidth, uw=usernamewidth)
+        )
 
     flag = 0
     for key in sorted(users):
+        if flag % 128 == 0:
+            print_title()
         user = users[key]
         initial = ""
         if user.middlename:

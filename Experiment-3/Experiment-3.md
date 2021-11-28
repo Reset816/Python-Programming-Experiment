@@ -6,9 +6,19 @@
 
   在函数内部创建全局变量，或者在函数内部改变一个全局变量。
 
+  ```python
+  def foo():
+      global x
+  ```
+
 - `lambda`
 
   `lambda arguments : expression` 可以创建一个匿名函数。该匿名函数可以接受多个参数，但只能有一条语句。
+
+  ```python
+  x = lambda a : a + 10
+  print(x(5))=
+  ```
 
 - `pass`
 
@@ -18,34 +28,119 @@
 
   引发一个异常
 
+  ```python
+  raise ValueError("a 必须是数字")
+  ```
+
 - `with`
 
-   适用于对资源进行访问的场合，简化异常处理
+   适用于对资源进行访问的场合，确保不管使用过程中是否发生异常都会执行必要的“清理”操作，释放资源。
+
+   ```python
+   with open("１.txt") as file:
+       data = file.read()
+   ```
+
+   1. 紧跟with后面的语句被求值后，返回对象的“–enter–()”方法被调用，这个方法的返回值将被赋值给as后面的变量；
+   2. 当with后面的代码块全部被执行完之后，将调用前面返回对象的“–exit–()”方法。
 
 - `assert`
 
    可以触发异常，并提供可指定的说明信息
 
+   断言声明是用于程序调试的一个便捷方式。断言可以看做是一个debug工具，在Python中assert语句的执行是依赖于`__debug__`这个内置变量的，其默认值为`True`。当`__debug__`为`True`时，assert语句才会被执行。
+
+   `assert expression`等价于
+
+   ```python
+   if __debug__:
+       if not expression: raise AssertionError
+   ```
+
+   如果执行脚本文件时加上`-O`参数， `__debug__`则为`False`
+
+   检查`先验条件`使用断言，检查`后验条件`使用异常
+
+   例如：
+
+   ```python
+   assert ('linux' in sys.platform)
+   ```
+
+   如果不满足条件则触发异常
+
+   reference: [Python中如何优雅的使用assert断言 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/91853234)
+
 - `finally`
 
-  被 `finally` 修饰的语句块总会被执行
+  无论 try 块是否引发错误，被 `finally` 修饰的语句块总会被执行。
 
+  常用于关闭对象和清理资源。
+
+  ```python
+  try:
+    x > 3
+  except:
+    print("Something went wrong")
+  else:
+    print("Nothing went wrong")
+  finally:
+    print("The try...except block is finished")									
+  ```
+  
+  
+  没有异常时会执行 else 块
+  
 - `nonlocal`
 
   让被 `nonlocal` 声明的变量和函数外层的同名变量为同一个，以实现闭包。
 
   reference: [简谈Python3关键字nonlocal使用场景 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/96508259)
 
+  ```python
+  def make_averager():
+      count = 0
+      total = 0
+      def averager(new_value):
+          nonlocal count, total
+          count += 1
+          total += new_value
+          return total / count
+      return averager
+  ```
+
 - `yield`
 
-   带 `yield` 的函数是一个迭代器
+   带 `yield` 的函数是一个迭代器。
+
+   ```python
+   def fab(max): 
+       n, a, b = 0, 0, 1 
+       while n < max: 
+           yield b      # 使用 yield
+           # print b 
+           a, b = b, a + b 
+           n = n + 1
+    
+   for n in fab(5): 
+       print n
+   ```
 
 - `class`
 
-  用来创建一个类
+  用来创建一个类。
+
+  ```python
+  class MyClass:
+    x = 5
+  ```
 
 - `from`
 
+  ```python
+  from math import pi
+  ```
+  
   从一个 module 中导入一个特定的 section。
 
 
