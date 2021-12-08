@@ -48,7 +48,6 @@ import math
 
 
 class Point:
-
     def __init__(self, x=0, y=0):
         """A 2D cartesian coordinate
 
@@ -59,7 +58,6 @@ class Point:
         self.x = x
         self.y = y
 
-
     def distance_from_origin(self):
         """Returns the distance of the point from the origin
 
@@ -69,21 +67,117 @@ class Point:
         """
         return math.hypot(self.x, self.y)
 
-
     def __eq__(self, other):
         return self.x == other.x and self.y == other.y
-
 
     def __repr__(self):
         return "Point({0.x!r}, {0.y!r})".format(self)
 
-
     def __str__(self):
         return "({0.x!r}, {0.y!r})".format(self)
 
+    def __add__(self, other):
+        """将两点的坐标相加
+        >>> p = Point(6, 7)
+        >>> q = p + Point(1, 2)
+        >>> q
+        Point(7, 9)
+        """
+        return Point(self.x + other.x, self.y + other.y)
+
+    def __iadd__(self, other):
+        """将另一个点的坐标加到该点上
+        >>> p = Point(4, 1)
+        >>> p += Point(2, 0)
+        >>> p
+        Point(6, 1)
+        """
+        self.x += other.x
+        self.y += other.y
+        return self
+
+    def __sub__(self, other):
+        """将两点的坐标相减
+        >>> p = Point(1, 9)
+        >>> q = p - Point(-1, 1)
+        >>> q
+        Point(2, 8)
+        """
+        return Point(self.x - other.x, self.y - other.y)
+
+    def __isub__(self, other):
+        """将另一个点的坐标减到该点上
+        >>> p = Point(1, 9)
+        >>> p -= Point(-1, 1)
+        >>> p
+        Point(2, 8)
+        """
+        self.x -= other.x
+        self.y -= other.y
+        return self
+
+    def __mul__(self, other):
+        """将该点坐标乘以一个数
+        >>> p = Point(1, 3)
+        >>> q = p * 2
+        >>> q
+        Point(2, 6)
+        """
+        return Point(self.x * other, self.y * other)
+
+    def __imul__(self, other):
+        """将该点坐标等于该点坐标乘以一个数
+        >>> p = Point(1, 3)
+        >>> p *= 2
+        >>> p
+        Point(2, 6)
+        """
+        self.x *= other
+        self.y *= other
+        return self
+
+    def __truediv__(self, other):
+        """将该点坐标除以一个数
+        >>> p = Point(6, 4)
+        >>> q = p / 2
+        >>> q
+        Point(3.0, 2.0)
+        """
+        return Point(self.x / other, self.y / other)
+
+    def __itruediv__(self, other):
+        """将该点坐标等于该点坐标除以一个数
+        >>> p = Point(6, 4)
+        >>> p /= 2
+        >>> p
+        Point(3.0, 2.0)
+        """
+        self.x /= other
+        self.y /= other
+        return self
+
+    def __floordiv__(self, other):
+        """将该点坐标除以一个数并向下取整
+        >>> p = Point(7, 4)
+        >>> q = p // 2
+        >>> q
+        Point(3, 2)
+        """
+        return Point(self.x // other, self.y // other)
+
+    def __ifloordiv__(self, other):
+        """将该点坐标等于该点坐标除以一个数并向下取整
+        >>> p = Point(7, 4)
+        >>> p //= 2
+        >>> p
+        Point(3, 2)
+        """
+        self.x //= other
+        self.y //= other
+        return self
+
 
 class Circle(Point):
-
     def __init__(self, radius, x=0, y=0):
         """A Circle
 
@@ -94,7 +188,6 @@ class Circle(Point):
         super().__init__(x, y)
         self.radius = radius
 
-
     def edge_distance_from_origin(self):
         """The distance of the circle's edge from the origin
 
@@ -103,7 +196,6 @@ class Circle(Point):
         3.0
         """
         return abs(self.distance_from_origin() - self.radius)
-
 
     def area(self):
         """The circle's area
@@ -115,7 +207,6 @@ class Circle(Point):
         """
         return math.pi * (self.radius ** 2)
 
-
     def circumference(self):
         """The circle's circumference
 
@@ -126,19 +217,17 @@ class Circle(Point):
         """
         return 2 * math.pi * self.radius
 
-
     def __eq__(self, other):
         return self.radius == other.radius and super().__eq__(other)
-
 
     def __repr__(self):
         return "Circle({0.radius!r}, {0.x!r}, {0.y!r})".format(self)
 
-
     def __str__(self):
         return repr(self)
-        
+
 
 if __name__ == "__main__":
     import doctest
+
     doctest.testmod()
